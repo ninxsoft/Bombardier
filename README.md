@@ -1,5 +1,5 @@
 # Bombardier
-A Mac utility that downloads and extracts [Boot Camp](https://support.apple.com/en-au/boot-camp) drivers with a single click.
+A Mac utility that downloads and extracts [Boot Camp](https://support.apple.com/en-au/boot-camp) drivers with a single click:
 
 ![Bombardier](Readme%20Resources/Bombardier.png)
 
@@ -14,10 +14,11 @@ Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), 
     *   The Apple Software Update Server Catalog (**SUCatalog**), used to determine Boot Camp drivers
 
 
-## Requirements
+## Build Requirements
 *   Written in Swift 5.0.1.
 *   Built using Xcode 10.2.1.
 *   Builds run on OS X El Capitan 10.11 or later.
+*   App tested on macOS Mojave 10.14.
 
 ## Download
 Grab the latest version of Bombardier from the [releases page](https://github.com/ninxsoft/Bombardier/releases).
