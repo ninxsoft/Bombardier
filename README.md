@@ -1,9 +1,7 @@
 # Bombardier
 A Mac utility that downloads and extracts [Boot Camp](https://support.apple.com/en-au/boot-camp) drivers with a single click:
 
-<img src="https://github.com/ninxsoft/Bombardier/blob/master/Readme%20Resources/Bombardier.png" width="600">
-
-![Bombardier](Readme%20Resources/Bombardier.png)
+<img src="https://github.com/ninxsoft/Bombardier/blob/master/Readme%20Resources/Bombardier.png" width="500">
 
 Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), a command-line utility that has saved me countless hours troubleshooting Boot Camp driver packages.
 
