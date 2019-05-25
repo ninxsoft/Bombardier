@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>LastUpdated</key>
-	<date>2019-05-18T02:00:00Z</date>
+	<date>2019-05-25T02:00:00Z</date>
 	<key>Models</key>
 	<array>
 		<dict>
@@ -618,7 +618,7 @@
 			<key>ModelIdentifier</key>
 			<string>MacBookPro13,1</string>
 			<key>MarketingName</key>
-			<string>MacBook Pro (13-inch, 2016, Two Thunderbolt 3 ports)</string>
+			<string>MacBook Pro (13-inch, 2016, Two Thunderbolt 3 Ports)</string>
 			<key>ImagePath</key>
 			<string>com.apple.macbookpro-13-retina-usbc-silver.icns</string>
 		</dict>
@@ -626,7 +626,7 @@
 			<key>ModelIdentifier</key>
 			<string>MacBookPro13,2</string>
 			<key>MarketingName</key>
-			<string>MacBook Pro (13-inch, 2016, Four Thunderbolt 3 ports)</string>
+			<string>MacBook Pro (13-inch, 2016, Four Thunderbolt 3 Ports)</string>
 			<key>ImagePath</key>
 			<string>com.apple.macbookpro-13-retina-touchid-silver.icns</string>
 		</dict>
@@ -642,7 +642,7 @@
 			<key>ModelIdentifier</key>
 			<string>MacBookPro14,1</string>
 			<key>MarketingName</key>
-			<string>MacBook Pro (13-inch, 2017, Two Thunderbolt 3 ports)</string>
+			<string>MacBook Pro (13-inch, 2017, Two Thunderbolt 3 Ports)</string>
 			<key>ImagePath</key>
 			<string>com.apple.macbookpro-13-retina-usbc-space-gray.icns</string>
 		</dict>
@@ -650,7 +650,7 @@
 			<key>ModelIdentifier</key>
 			<string>MacBookPro14,2</string>
 			<key>MarketingName</key>
-			<string>MacBook Pro (13-inch, 2017, Four Thunderbolt 3 ports)</string>
+			<string>MacBook Pro (13-inch, 2017, Four Thunderbolt 3 Ports)</string>
 			<key>ImagePath</key>
 			<string>com.apple.macbookpro-13-retina-touchid-space-gray.icns</string>
 		</dict>
@@ -666,7 +666,7 @@
 			<key>ModelIdentifier</key>
 			<string>MacBookPro15,1</string>
 			<key>MarketingName</key>
-			<string>MacBook Pro (15-inch, 2018)</string>
+			<string>MacBook Pro (15-inch, 2018, 2019)</string>
 			<key>ImagePath</key>
 			<string>com.apple.macbookpro-15-retina-touchid-silver.icns</string>
 		</dict>
@@ -674,7 +674,7 @@
 			<key>ModelIdentifier</key>
 			<string>MacBookPro15,2</string>
 			<key>MarketingName</key>
-			<string>MacBook Pro (13-inch, 2018, Four Thunderbolt 3 ports)</string>
+			<string>MacBook Pro (13-inch, 2018, 2019, Four Thunderbolt 3 Ports)</string>
 			<key>ImagePath</key>
 			<string>com.apple.macbookpro-13-retina-touchid-silver.icns</string>
 		</dict>
@@ -682,7 +682,7 @@
 			<key>ModelIdentifier</key>
 			<string>MacBookPro15,3</string>
 			<key>MarketingName</key>
-			<string>MacBook Pro (15-inch, 2018)</string>
+			<string>MacBook Pro (15-inch, 2018, 2019)</string>
 			<key>ImagePath</key>
 			<string>com.apple.macbookpro-15-retina-touchid-space-gray.icns</string>
 		</dict>
