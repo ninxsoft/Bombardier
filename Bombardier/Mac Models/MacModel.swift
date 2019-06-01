@@ -9,7 +9,7 @@
 import Cocoa
 
 class MacModel: NSObject {
-  
+
   static let imagePathPrefix = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/"
   private var modelIdentifier = ""
   private var marketingName = ""
@@ -21,19 +21,19 @@ class MacModel: NSObject {
     self.marketingName = marketingName
     self.imagePath = MacModel.imagePathPrefix + imagePath
   }
-  
+
   func getModelIdentifier() -> String {
     return self.modelIdentifier
   }
-  
+
   func getMarketingName() -> String {
     return self.marketingName
   }
-  
+
   func getImagePath() -> String {
     return self.imagePath
   }
-  
+
   override var description: String {
     return "\(self.marketingName) (\(self.modelIdentifier))"
   }
