@@ -880,8 +880,8 @@ Gw
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AAk-fa-BLa">
-                                <rect key="frame" x="18" y="94" width="160" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Software Update Catalog:" id="m6H-AW-aEg">
+                                <rect key="frame" x="18" y="94" width="189" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Software Update Catalog URL:" id="m6H-AW-aEg">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
