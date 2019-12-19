@@ -1,7 +1,10 @@
 # Bombardier
 A Mac utility that downloads and extracts [Boot Camp](https://support.apple.com/en-au/boot-camp) drivers with a single click:
 
-<img src="https://github.com/ninxsoft/Bombardier/blob/master/Readme%20Resources/Bombardier.png" width="560">
+|                | **Light** | **Dark** |
+| :------------: | :-------: | :------: |
+| **Mac Models** | ![Mac Models](Readme%20Resources/Mac%20Models%20-%20Light.png) | ![Mac Models](Readme%20Resources/Mac%20Models%20-%20Dark.png) |
+| **Boot Camp Packages** | ![Boot Camp Packages](Readme%20Resources/Boot%20Camp%20Packages%20-%20Light.png) | ![Boot Camp Packages](Readme%20Resources/Boot%20Camp%20Packages%20-%20Dark.png) |
 
 Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), a command-line utility that has saved me countless hours troubleshooting Boot Camp driver packages.
 
@@ -9,16 +12,25 @@ Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), 
 *   [x] One click download of Boot Camp drivers
     *   The Boot Camp driver disk image (**DMG**) is automatically extracted from the downloaded Package (**PKG**)
     *   Boot Camp drivers are downloaded to `~/Downloads/Bombardier`
+    *   You can toggle between the **Mac Models** and **Boot Camp Packages** view layouts
+    *   You can search just about anything to help filter down Packages
+    *   You can also double-click on a Package row to initiate a download (or **Show in Finder** if already downloaded)
 *   [x] Launching Bombardier will automatically update:
     *   The list of Mac Models
-    *   The Apple Software Update Server Catalog (**SUCatalog**), used to determine Boot Camp drivers
+    *   The Apple Software Update Catalog (**SUCatalog**), used to determine Boot Camp drivers
+
+        **Note:** The catalog can be overridden via **Preferences**:
+
+        | **Light** | **Dark** |
+        | :-------: | :------: |
+        | ![Preferences](Readme%20Resources/Preferences%20-%20Light.png) | ![Preferences](Readme%20Resources/Preferences%20-%20Dark.png) |
 
 
 ## Build Requirements
-*   Written in Swift 5.0.1.
-*   Built using Xcode 10.2.1.
+*   Written in Swift 5.1.
+*   Built using Xcode 11.3.
 *   Builds run on OS X El Capitan 10.11 or later.
-*   App tested on macOS Mojave 10.14.
+*   Bombardier has been tested on macOS Catalina 10.15.
 
 ## Download
 Grab the latest version of Bombardier from the [releases page](https://github.com/ninxsoft/Bombardier/releases).
@@ -33,7 +45,7 @@ Grab the latest version of Bombardier from the [releases page](https://github.co
     *   Initial release
 
 ## License
-    Copyright © 2019 Nindi Gill
+    Copyright © 2020 Nindi Gill
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
