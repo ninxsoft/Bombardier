@@ -10,8 +10,9 @@ import Cocoa
 
 class UpdateViewController: NSViewController {
 
-  let macModelsUpdateComplete = NSNotification.Name(rawValue: "MacModelsUpdateComplete")
-  let bootCampPackagesUpdateComplete = NSNotification.Name(rawValue: "BootCampPackagesUpdateComplete")
+  let macModelsUpdateComplete: NSNotification.Name = NSNotification.Name(rawValue: "MacModelsUpdateComplete")
+  let bootCampPackagesUpdateComplete: NSNotification.Name =
+    NSNotification.Name(rawValue: "BootCampPackagesUpdateComplete")
   @IBOutlet var textField: NSTextField?
   @IBOutlet var progressIndicator: NSProgressIndicator?
   @IBOutlet var button: NSButton?
@@ -28,9 +29,14 @@ class UpdateViewController: NSViewController {
     self.update()
   }
 
+  @IBAction func buttonClicked(sender: NSButton) {
+    self.view.window?.sheetParent?.endSheet(self.view.window!, returnCode: .OK)
+  }
+
   private func update() {
 
-    guard let mainViewController = self.view.window?.sheetParent?.contentViewController as? MainViewController else {
+    guard let mainViewController: MainViewController =
+      self.view.window?.sheetParent?.contentViewController as? MainViewController else {
       self.updateFailed()
       return
     }
@@ -40,7 +46,7 @@ class UpdateViewController: NSViewController {
       self.textField?.stringValue = "Updating: Mac Models..."
     }
 
-    let queue = DispatchQueue(label: "work")
+    let queue: DispatchQueue = DispatchQueue(label: "work")
     queue.async {
       mainViewController.updateMacModels()
     }
@@ -51,8 +57,9 @@ class UpdateViewController: NSViewController {
 
     DispatchQueue.main.async {
 
-      guard let mainViewController = self.view.window?.sheetParent?.contentViewController as? MainViewController,
-        let success = notification.object as? Bool,
+      guard let mainViewController: MainViewController =
+        self.view.window?.sheetParent?.contentViewController as? MainViewController,
+        let success: Bool = notification.object as? Bool,
           success else {
         self.updateFailed()
         return
@@ -60,7 +67,7 @@ class UpdateViewController: NSViewController {
 
       self.textField?.stringValue = "Updating: Boot Camp Packages..."
 
-      let queue = DispatchQueue(label: "work")
+      let queue: DispatchQueue = DispatchQueue(label: "work")
       queue.async {
         mainViewController.updateBootCampPackages()
       }
@@ -72,7 +79,7 @@ class UpdateViewController: NSViewController {
 
     DispatchQueue.main.async {
 
-      guard let success = notification.object as? Bool,
+      guard let success: Bool = notification.object as? Bool,
         success else {
         self.updateFailed()
         return
@@ -96,9 +103,5 @@ class UpdateViewController: NSViewController {
       self.button?.title = "Close"
       self.progressIndicator?.stopAnimation(self)
     }
-  }
-
-  @IBAction func buttonClicked(sender: NSButton) {
-    self.view.window?.sheetParent?.endSheet(self.view.window!, returnCode: .OK)
   }
 }

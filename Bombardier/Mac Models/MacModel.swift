@@ -9,11 +9,10 @@
 import Cocoa
 
 class MacModel: NSObject {
-
-  static let imagePathPrefix = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/"
-  private var modelIdentifier = ""
-  private var marketingName = ""
-  private var imagePath = ""
+  static let imagePathPrefix: String = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/"
+  private var modelIdentifier: String = ""
+  private var marketingName: String = ""
+  private var imagePath: String = ""
 
   convenience init(modelIdentifier: String, marketingName: String, imagePath: String) {
     self.init()
@@ -32,9 +31,5 @@ class MacModel: NSObject {
 
   func getImagePath() -> String {
     return self.imagePath
-  }
-
-  override var description: String {
-    return "\(self.marketingName) (\(self.modelIdentifier))"
   }
 }

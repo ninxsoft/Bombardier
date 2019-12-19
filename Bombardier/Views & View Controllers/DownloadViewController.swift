@@ -10,16 +10,21 @@ import Cocoa
 
 class DownloadViewController: NSViewController {
 
+  var package: BootCampPackage = BootCampPackage()
+  var session: URLSession = URLSession()
+  var success: Bool = false
   @IBOutlet var textField: NSTextField?
   @IBOutlet var progressIndicator: NSProgressIndicator?
   @IBOutlet var progressTextField: NSTextField?
   @IBOutlet var button: NSButton?
-  var package = BootCampPackage()
-  var session = URLSession()
-  var success = false
 
   override func viewWillAppear() {
     self.download()
+  }
+
+  @IBAction func buttonClicked(sender: NSButton) {
+    self.session.invalidateAndCancel()
+    self.view.window?.sheetParent?.endSheet(self.view.window!, returnCode: self.success ? .OK : .cancel)
   }
 
   private func download() {
@@ -27,35 +32,30 @@ class DownloadViewController: NSViewController {
     self.textField?.stringValue = "Boot Camp Package \(self.package.getName()): Downloading..."
     self.updateProgress(downloaded: 0, total: Int64(self.package.getSize()))
 
-    guard let url = URL(string: self.package.getURL()) else {
+    guard let url: URL = URL(string: self.package.getURL()) else {
       self.textField?.stringValue = "Boot Camp Package \(self.package.getName()): Downloading Failed!"
       self.progressIndicator?.stopAnimation(self)
       self.button?.title = "Close"
       return
     }
 
-    let sessionConfiguration = URLSessionConfiguration.default
+    let sessionConfiguration: URLSessionConfiguration = URLSessionConfiguration.default
     sessionConfiguration.timeoutIntervalForRequest = 5.0
     self.session = URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: OperationQueue())
-    let task = self.session.downloadTask(with: url)
+    let task: URLSessionDownloadTask = self.session.downloadTask(with: url)
     task.resume()
   }
 
   private func updateProgress(downloaded: Int64, total: Int64) {
-    let downloadedFloat = Float(downloaded) / 1000.0 / 1000.0
-    let totalFloat = Float(total) / 1000.0 / 1000.0
-    let percentage = downloadedFloat / totalFloat * 100.0
-    let string = String(format: "%.1f MB of %.1f MB (%.1f%%)", downloadedFloat, totalFloat, percentage)
+    let downloadedFloat: Float = Float(downloaded) / 1000.0 / 1000.0
+    let totalFloat: Float = Float(total) / 1000.0 / 1000.0
+    let percentage: Float = downloadedFloat / totalFloat * 100.0
+    let string: String = String(format: "%.1f MB of %.1f MB (%.1f%%)", downloadedFloat, totalFloat, percentage)
 
     DispatchQueue.main.async {
       self.progressIndicator?.doubleValue = Double(percentage)
       self.progressTextField?.stringValue = string
     }
-  }
-
-  @IBAction func buttonClicked(sender: NSButton) {
-    self.session.invalidateAndCancel()
-    self.view.window?.sheetParent?.endSheet(self.view.window!, returnCode: self.success ? .OK : .cancel)
   }
 
   private func cleanupTempDirectory(packagePath: String, directoryPath: String) -> Bool {
@@ -65,14 +65,14 @@ class DownloadViewController: NSViewController {
         try FileManager.default.removeItem(atPath: packagePath)
       }
 
-      var isDirectory = ObjCBool(false)
+      var isDirectory: ObjCBool = ObjCBool(false)
 
       if FileManager.default.fileExists(atPath: directoryPath, isDirectory: &isDirectory) {
         try FileManager.default.removeItem(atPath: directoryPath)
       }
 
       return true
-    } catch let error {
+    } catch {
       print(error)
       return false
     }
@@ -80,7 +80,7 @@ class DownloadViewController: NSViewController {
 
   // executes a shell command, returns true if executed successfully
   private func shell(_ args: String...) -> Bool {
-    let task = Process()
+    let task: Process = Process()
     task.launchPath = "/usr/bin/env"
     task.arguments = args
     task.launch()
@@ -104,11 +104,11 @@ extension DownloadViewController: URLSessionDownloadDelegate {
 
   func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
 
-    let packagePath = NSTemporaryDirectory() + self.package.getName() + ".pkg"
-    let directoryPath = NSTemporaryDirectory() + self.package.getName()
-    let payloadPath = directoryPath + "/" + "Payload"
-    let dmgPath = directoryPath + "/Library/Application Support/BootCamp/WindowsSupport.dmg"
-    let downloadPath = MainViewController.downloadPath + "/" + self.package.getName() + ".dmg"
+    let packagePath: String = NSTemporaryDirectory() + self.package.getName() + ".pkg"
+    let directoryPath: String = NSTemporaryDirectory() + self.package.getName()
+    let payloadPath: String = directoryPath + "/" + "Payload"
+    let dmgPath: String = directoryPath + "/Library/Application Support/BootCamp/WindowsSupport.dmg"
+    let downloadPath: String = MainViewController.downloadPath + "/" + self.package.getName() + ".dmg"
 
     DispatchQueue.main.async {
       self.textField?.stringValue = "Boot Camp Package \(self.package.getName()): Extracting..."
@@ -146,7 +146,7 @@ extension DownloadViewController: URLSessionDownloadDelegate {
           return
       }
 
-      var isDirectory = ObjCBool(false)
+      var isDirectory: ObjCBool = ObjCBool(false)
 
       if !FileManager.default.fileExists(atPath: MainViewController.downloadPath, isDirectory: &isDirectory) {
         try FileManager.default.createDirectory(atPath: MainViewController.downloadPath,
@@ -159,7 +159,7 @@ extension DownloadViewController: URLSessionDownloadDelegate {
       _ = self.cleanupTempDirectory(packagePath: packagePath, directoryPath: directoryPath)
       NSWorkspace.shared.selectFile(downloadPath, inFileViewerRootedAtPath: "")
       self.success = true
-    } catch let error {
+    } catch {
       print(error)
       _ = self.cleanupTempDirectory(packagePath: packagePath, directoryPath: directoryPath)
     }
@@ -169,7 +169,7 @@ extension DownloadViewController: URLSessionDownloadDelegate {
 
     DispatchQueue.main.async {
 
-      if let downloadError = error {
+      if let downloadError: Error = error {
         print(downloadError)
         self.textField?.stringValue = "Boot Camp Package \(self.package.getName()): Downloading Failed!"
       } else {

@@ -10,29 +10,108 @@ import Cocoa
 
 class MainViewController: NSViewController {
 
-  static let downloadPath = NSHomeDirectory() + "/Downloads/Bombardier"
-  static let downloadViewRect = NSRect(x: 0.0, y: 0.0, width: 64.0, height: 32.0)
-  @IBOutlet var outlineView: NSOutlineView?
-  @IBOutlet var searchField: NSSearchField?
-  @IBOutlet var segmentedControl: NSSegmentedControl?
-  private var macModels = MacModels()
-  private var filteredMacModels = [MacModel]()
-  private var bootCampPackages = BootCampPackages()
-  private var downloadImage = DownloadView(frame: MainViewController.downloadViewRect).imageRepresentation()
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
+  enum OutlineViewType: Int {
+    case macModels
+    case bootCampPackages
   }
+
+  static let downloadPath: String = NSHomeDirectory() + "/Downloads/Bombardier"
+  private var macModels: MacModels = MacModels()
+  private var filteredMacModels: [MacModel] = []
+  private var bootCampPackages: BootCampPackages = BootCampPackages()
+  private var filteredBootCampPackages: [BootCampPackage] = []
+  private var type: OutlineViewType = .macModels
+  @IBOutlet weak var searchField: NSSearchField?
+  @IBOutlet weak var tabView: NSTabView?
+  @IBOutlet weak var macModelsOutlineView: NSOutlineView?
+  @IBOutlet weak var bootCampPackagesOutlineView: NSOutlineView?
+  @IBOutlet weak var segmentedControl: NSSegmentedControl?
 
   override func viewWillAppear() {
    self.presentUpdateWindowController()
   }
 
+  @IBAction func didClickPreferences(sender: NSMenuItem) {
+    let storyboard: NSStoryboard = NSStoryboard(name: "Main", bundle: nil)
+    let identifier: String = "PreferencesWindowController"
+
+    guard let windowController: NSWindowController =  storyboard.instantiateController(withIdentifier: identifier) as?
+     NSWindowController else {
+      return
+    }
+
+    windowController.showWindow(self)
+  }
+
+  @IBAction func didClickToolbarSegmentedControl(sender: NSSegmentedControl) {
+    tabView?.selectTabViewItem(at: sender.selectedSegment)
+
+    if let outlineViewType: OutlineViewType = OutlineViewType(rawValue: sender.selectedSegment) {
+      type = outlineViewType
+    }
+
+    switch type {
+    case .macModels:
+      self.macModelsOutlineView?.reloadData()
+      self.macModelsOutlineView?.expandItem(nil, expandChildren: true)
+    case .bootCampPackages:
+      self.bootCampPackagesOutlineView?.reloadData()
+      self.bootCampPackagesOutlineView?.expandItem(nil, expandChildren: true)
+    }
+  }
+
+  @IBAction func didClickSegmentedControl(sender: NSSegmentedControl) {
+    switch sender.selectedSegment {
+    case 0:
+      expandAll()
+    case 1:
+      collapseAll()
+    case 3:
+      self.presentUpdateWindowController()
+    default:
+      break
+    }
+  }
+
+  @IBAction func didDoubleClickOutlineView(sender: NSOutlineView) {
+    downloadPackage()
+  }
+
+  @IBAction func downloadButtonClicked(sender: NSButton) {
+    downloadPackage()
+  }
+
+  @IBAction func showInFinderButtonClicked(sender: NSButton) {
+    var path: String = ""
+
+    switch type {
+    case .macModels:
+      // only action if selected row is a package (not a mac model)
+      if let selectedRow: Int = self.macModelsOutlineView?.selectedRow,
+        let package: BootCampPackage = self.macModelsOutlineView?.item(atRow: selectedRow) as? BootCampPackage {
+        path = "\(MainViewController.downloadPath)/\(package.getName()).dmg"
+      }
+    case .bootCampPackages:
+      // only action if selected row is a package (not a mac model)
+      if let selectedRow: Int = self.bootCampPackagesOutlineView?.selectedRow,
+        let package: BootCampPackage = self.bootCampPackagesOutlineView?.item(atRow: selectedRow) as? BootCampPackage {
+        path = "\(MainViewController.downloadPath)/\(package.getName()).dmg"
+      }
+    }
+
+    guard !path.isEmpty else {
+      return
+    }
+
+    if FileManager.default.fileExists(atPath: path) {
+      NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
+    }
+  }
+
   // display the update sheet while downloading mac models and apple sus catalog plists are downloaded
   private func presentUpdateWindowController() {
-
-    let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-    let identifier = NSStoryboard.SceneIdentifier("UpdateWindowController")
+    let storyboard: NSStoryboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
+    let identifier: String = "UpdateWindowController"
 
     guard let controller = storyboard.instantiateController(withIdentifier: identifier) as? NSWindowController else {
       return
@@ -41,6 +120,35 @@ class MainViewController: NSViewController {
     self.view.window?.beginSheet((controller.window!), completionHandler: { _ in
       self.update()
     })
+  }
+
+  func downloadPackage() {
+    var path: String = ""
+    var package: BootCampPackage = BootCampPackage()
+
+    switch type {
+    case .macModels:
+      // only action if selected row is a package (not a mac model)
+      if let selectedRow: Int = self.macModelsOutlineView?.selectedRow,
+        let selectedPackage: BootCampPackage = self.macModelsOutlineView?.item(atRow: selectedRow) as? BootCampPackage {
+        path = "\(MainViewController.downloadPath)/\(selectedPackage.getName()).dmg"
+        package = selectedPackage
+      }
+    case .bootCampPackages:
+      // only action if selected row is a package (not a mac model)
+      if let selectedRow: Int = self.bootCampPackagesOutlineView?.selectedRow,
+        let selectedPackage: BootCampPackage =
+        self.bootCampPackagesOutlineView?.item(atRow: selectedRow) as? BootCampPackage {
+        path = "\(MainViewController.downloadPath)/\(selectedPackage.getName()).dmg"
+        package = selectedPackage
+      }
+    }
+
+    if FileManager.default.fileExists(atPath: path) {
+      NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
+    } else {
+      self.presentDownloadWindowController(package: package)
+    }
   }
 
   func updateMacModels() {
@@ -53,89 +161,50 @@ class MainViewController: NSViewController {
 
   private func update() {
     self.filteredMacModels = self.macModels.getModelArray()
-    self.outlineView?.reloadData()
-    self.outlineView?.expandItem(nil, expandChildren: true)
-    self.updateOutlineViewColumnTitle()
+    self.macModelsOutlineView?.reloadData()
+    self.macModelsOutlineView?.expandItem(nil, expandChildren: true)
+    self.filteredBootCampPackages = self.bootCampPackages.getPackageArray()
+    self.bootCampPackagesOutlineView?.reloadData()
+    self.bootCampPackagesOutlineView?.expandItem(nil, expandChildren: true)
     self.updateSegmentedControlLabel()
   }
 
-  private func updateOutlineViewColumnTitle() {
-    let lastUpdated = self.macModels.getLastUpdated()
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .medium
-    dateFormatter.timeStyle = .medium
-    let title = "Mac Models - Updated \(dateFormatter.string(from: lastUpdated))"
-    self.outlineView?.outlineTableColumn?.title = title
-  }
-
   private func updateSegmentedControlLabel() {
-    let lastUpdated = self.bootCampPackages.getLastUpdated()
-    let dateFormatter = DateFormatter()
+    let dateFormatter: DateFormatter = DateFormatter()
     dateFormatter.dateStyle = .medium
     dateFormatter.timeStyle = .medium
-    let title = "Software Update Catalog - Updated \(dateFormatter.string(from: lastUpdated))"
-    self.segmentedControl?.setLabel(title, forSegment: 0)
+    let modelsLastUpdated: String = dateFormatter.string(from: self.macModels.getLastUpdated())
+    let packagesLastUpdated: String = dateFormatter.string(from: self.bootCampPackages.getLastUpdated())
+    let string: String = "Mac Models: Updated \(modelsLastUpdated)" + "                         " +
+                         "Software Update Catalog: Updated \(packagesLastUpdated)"
+    self.segmentedControl?.setLabel(string, forSegment: 2)
   }
 
-  @IBAction func segmentedControlClicked(sender: NSSegmentedControl) {
-
-    guard sender.indexOfSelectedItem == sender.segmentCount - 1 else {
-      return
-    }
-
-    // only action if the last segment is clicked
-    self.presentUpdateWindowController()
-  }
-
-  @IBAction func outlineViewDoubleClicked(sender: NSOutlineView) {
-
-    let selectedRow = sender.selectedRow
-
-    // only action if selected row is a package (not a mac model)
-    guard let package = sender.item(atRow: selectedRow) as? BootCampPackage,
-      let tableCellView = sender.view(atColumn: 0,
-                                 row: selectedRow,
-                                 makeIfNecessary: false) as? BootCampPackageTableCellView,
-      let downloadButton = tableCellView.downloadButton else {
-        return
-    }
-
-    if downloadButton.title == "GET" {
-      self.presentDownloadWindowController(package: package)
-    } else if downloadButton.title == "OPEN" {
-      let path = "\(MainViewController.downloadPath)/\(package.getName()).dmg"
-      NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
+  private func expandAll() {
+    switch type {
+    case .macModels:
+      macModelsOutlineView?.expandItem(nil, expandChildren: true)
+    case .bootCampPackages:
+      bootCampPackagesOutlineView?.expandItem(nil, expandChildren: true)
     }
   }
 
-  @IBAction func downloadButtonClicked(sender: NSButton) {
-
-    // only action if selected row is a package (not a mac model)
-    guard let superview = sender.superview as? BootCampPackageTableCellView,
-      let selectedRow = self.outlineView?.row(for: superview),
-      let package = self.outlineView?.item(atRow: selectedRow) as? BootCampPackage else {
-        return
-    }
-
-    if sender.title == "GET" {
-      self.presentDownloadWindowController(package: package)
-    } else if sender.title == "OPEN" {
-      let path = "\(MainViewController.downloadPath)/\(package.getName()).dmg"
-      NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
+  private func collapseAll() {
+    switch type {
+    case .macModels:
+      macModelsOutlineView?.collapseItem(nil, collapseChildren: true)
+    case .bootCampPackages:
+      bootCampPackagesOutlineView?.collapseItem(nil, collapseChildren: true)
     }
   }
 
   // display the download sheet while downloading and extracting the boot camp package
   private func presentDownloadWindowController(package: BootCampPackage) {
+    let storyboard: NSStoryboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
+    let identifier: String = "DownloadWindowController"
 
-    let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-    let identifier = NSStoryboard.SceneIdentifier("DownloadWindowController")
-
-    guard let controller = storyboard.instantiateController(withIdentifier: identifier) as? NSWindowController else {
-      return
-    }
-
-    guard let viewController = controller.contentViewController as? DownloadViewController else {
+    guard let controller = storyboard.instantiateController(withIdentifier: identifier) as? NSWindowController,
+      let viewController = controller.contentViewController as? DownloadViewController else {
       return
     }
 
@@ -150,32 +219,60 @@ class MainViewController: NSViewController {
 extension MainViewController: NSOutlineViewDataSource {
 
   func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+    switch type {
+    case .macModels:
+      // total number of mac models
+      guard let macModel: MacModel = item as? MacModel else {
+        return self.filteredMacModels.count
+      }
 
-    // total number of mac models
-    guard let macModel = item as? MacModel else {
-      return self.filteredMacModels.count
+      // otherwise number of packages for the specific mac model
+      let packages: [BootCampPackage] = self.bootCampPackages.getPackages(for: macModel.getModelIdentifier())
+      return packages.count
+    case .bootCampPackages:
+      // total number of boot camp packages
+      guard let package: BootCampPackage = item as? BootCampPackage else {
+        return self.filteredBootCampPackages.count
+      }
+
+      // otherwise number of mac models for the specific boot camp package
+      let models: [MacModel] = self.macModels.getModels(for: package.getModelIdentifiers())
+      return models.count
     }
-
-    // otherwise number of packages for the specific mac model
-    let packages = self.bootCampPackages.getPackages(for: macModel.getModelIdentifier())
-    return packages.count
   }
 
   func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
+    switch type {
+    case .macModels:
+      // mac model
+      guard let macModel: MacModel = item as? MacModel else {
+        return self.filteredMacModels[index]
+      }
 
-    // mac model
-    guard let macModel = item as? MacModel else {
-      return self.filteredMacModels[index]
+      // otherwise package for mac model
+      let packages: [BootCampPackage] = self.bootCampPackages.getPackages(for: macModel.getModelIdentifier())
+      return packages[index]
+    case .bootCampPackages:
+      // boot camp package
+      guard let package: BootCampPackage = item as? BootCampPackage else {
+        return self.filteredBootCampPackages[index]
+      }
+
+      // otherwise mac model for package
+      let models: [MacModel] = self.macModels.getModels(for: package.getModelIdentifiers())
+      return models[index]
     }
-
-    // otherwise package for mac model
-    let packages = self.bootCampPackages.getPackages(for: macModel.getModelIdentifier())
-    return packages[index]
   }
 
   func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-    // only expandable if row is a mac model
-    return item is MacModel
+    switch type {
+    case .macModels:
+      // only expandable if row is a mac model
+      return item is MacModel
+    case .bootCampPackages:
+      // only expandable if row is a boot camp package
+      return item is BootCampPackage
+    }
   }
 }
 
@@ -183,63 +280,57 @@ extension MainViewController: NSOutlineViewDelegate {
 
   func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
 
-    if let macModel = item as? MacModel {
+    if let macModel: MacModel = item as? MacModel {
 
-      let identifier = NSUserInterfaceItemIdentifier(rawValue: "MacModelTableCellView")
-
-      guard let cell = outlineView.makeView(withIdentifier: identifier, owner: nil) as? MacModelTableCellView else {
+      guard let columnIdentifier: String = tableColumn?.identifier.rawValue,
+        ["Model", "Identifier"].contains(columnIdentifier),
+        let cell = outlineView.makeView(withIdentifier:
+          NSUserInterfaceItemIdentifier(rawValue: "\(columnIdentifier)TableCellView"),
+                                        owner: nil) as? NSTableCellView else {
         return nil
       }
 
-      cell.textField?.stringValue = macModel.getMarketingName()
-      cell.modelIdentifierTextField?.stringValue = macModel.getModelIdentifier()
+      let isModelColumn: Bool = columnIdentifier == "Model"
 
-      if let image = NSImage(contentsOfFile: macModel.getImagePath()) {
+      if isModelColumn,
+        let image: NSImage = NSImage(contentsOfFile: macModel.getImagePath()) {
         cell.imageView?.image = image
-      } else {
-        print("Unable to load image for \(macModel.getImagePath())!")
       }
 
+      cell.textField?.stringValue = isModelColumn ? macModel.getMarketingName() : macModel.getModelIdentifier()
       return cell
     }
 
-    if let bootCampPackage = item as? BootCampPackage {
+    if let bootCampPackage: BootCampPackage = item as? BootCampPackage {
 
-      let identifier = NSUserInterfaceItemIdentifier(rawValue: "BootCampPackageTableCellView")
-
-      guard let cell = outlineView.makeView(withIdentifier: identifier,
-                                            owner: nil) as? BootCampPackageTableCellView else {
+      guard let columnIdentifier: String = tableColumn?.identifier.rawValue,
+        ["Package", "Updated", "Size"].contains(columnIdentifier),
+        let cell = outlineView.makeView(withIdentifier:
+          NSUserInterfaceItemIdentifier(rawValue: "\(columnIdentifier)TableCellView"),
+                                        owner: nil) as? NSTableCellView else {
         return nil
       }
 
-      cell.downloadButton?.image = self.downloadImage
+      switch columnIdentifier {
+      case "Package":
+        let path: String = "\(MainViewController.downloadPath)/\(bootCampPackage.getName()).dmg"
+        let exists: Bool = FileManager.default.fileExists(atPath: path)
+        let imagePath: String = exists ? BootCampPackages.downloadedImagePath : BootCampPackages.imagePath
+        if let image: NSImage = NSImage(contentsOfFile: imagePath) {
+          cell.imageView?.image = image
+        }
 
-      let path = "\(MainViewController.downloadPath)/\(bootCampPackage.getName()).dmg"
-
-      if FileManager.default.fileExists(atPath: path) {
-        cell.downloadButton?.title = "OPEN"
-      } else {
-        cell.downloadButton?.title = "GET"
+        cell.textField?.stringValue = bootCampPackage.getName()
+        return cell
+      case "Updated":
+        cell.textField?.stringValue = bootCampPackage.getDateString()
+        return cell
+      case "Size":
+        cell.textField?.stringValue = bootCampPackage.getSizeString()
+        return cell
+      default:
+        return nil
       }
-
-      cell.textField?.stringValue = bootCampPackage.getName()
-
-      if let image = NSImage(contentsOfFile: BootCampPackages.imagePath) {
-        cell.imageView?.image = image
-      } else {
-        print("Unable to load image for \(BootCampPackages.imagePath)!")
-      }
-
-      let size = Float(bootCampPackage.getSize()) / 1000 / 1000
-      cell.sizeTextField?.stringValue = String(format: "%.1f MB", size)
-
-      let date = bootCampPackage.getDate()
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateStyle = .short
-      dateFormatter.timeStyle = .short
-      cell.dateTextField?.stringValue = " - Updated \(dateFormatter.string(from: date))"
-
-      return cell
     }
 
     return nil
@@ -250,19 +341,32 @@ extension MainViewController: NSTextFieldDelegate {
 
   func controlTextDidChange(_ obj: Notification) {
 
-    guard let object = obj.object as? NSSearchField else {
+    guard let object: NSSearchField = obj.object as? NSSearchField else {
       return
     }
 
-    let searchString = object.stringValue.lowercased()
+    let searchString: String = object.stringValue.lowercased()
 
     // reset filtering if search string is empty
     guard !searchString.isEmpty else {
       self.filteredMacModels = self.macModels.getModelArray()
-      self.outlineView?.reloadData()
-      self.outlineView?.expandItem(nil, expandChildren: true)
+      self.macModelsOutlineView?.reloadData()
+      self.macModelsOutlineView?.expandItem(nil, expandChildren: true)
+      self.filteredBootCampPackages = self.bootCampPackages.getPackageArray()
+      self.bootCampPackagesOutlineView?.reloadData()
+      self.bootCampPackagesOutlineView?.expandItem(nil, expandChildren: true)
       return
     }
+
+    switch type {
+    case .macModels:
+      filterMacModels(string: searchString)
+    case .bootCampPackages:
+      filterBootCampPackages(string: searchString)
+    }
+  }
+
+  private func filterMacModels(string: String) {
 
     // start fresh
     self.filteredMacModels.removeAll()
@@ -270,22 +374,26 @@ extension MainViewController: NSTextFieldDelegate {
     // add matches for model identifiers and marketing names
     for model in self.macModels.getModelArray() {
 
-      let modelIdentifierMatch = model.getModelIdentifier().lowercased().contains(searchString)
-      let marketingNameMatch = model.getMarketingName().lowercased().contains(searchString)
+      let modelIdentifierMatch: Bool = model.getModelIdentifier().lowercased().contains(string)
+      let marketingNameMatch: Bool = model.getMarketingName().lowercased().contains(string)
 
       if modelIdentifierMatch || marketingNameMatch {
         self.filteredMacModels.append(model)
       }
     }
 
-    // add matches for boot camp package names
+    // add matches for boot camp package names, dates and size
     for package in self.bootCampPackages.getPackageArray() {
 
-      if package.getName().lowercased().contains(searchString) {
+      let nameMatch: Bool = package.getName().lowercased().contains(string)
+      let dateMatch: Bool = package.getDateString().lowercased().contains(string)
+      let sizeMatch: Bool = package.getSizeString().lowercased().contains(string)
+
+      if nameMatch || dateMatch || sizeMatch {
 
         for model in self.macModels.getModelArray() {
 
-          let packageMatch = package.getModelIdentifiers().contains(model.getModelIdentifier())
+          let packageMatch: Bool = package.getModelIdentifiers().contains(model.getModelIdentifier())
 
           if packageMatch && !self.filteredMacModels.contains(model) {
             self.filteredMacModels.append(model)
@@ -294,7 +402,45 @@ extension MainViewController: NSTextFieldDelegate {
       }
     }
 
-    self.outlineView?.reloadData()
-    self.outlineView?.expandItem(nil, expandChildren: true)
+    self.macModelsOutlineView?.reloadData()
+    self.macModelsOutlineView?.expandItem(nil, expandChildren: true)
+  }
+
+  private func filterBootCampPackages(string: String) {
+
+    // start fresh
+    self.filteredBootCampPackages.removeAll()
+
+    // add matches for boot camp package names, date and size
+    for package in self.bootCampPackages.getPackageArray() {
+
+      let nameMatch: Bool = package.getName().lowercased().contains(string)
+      let dateMatch: Bool = package.getDateString().lowercased().contains(string)
+      let sizeMatch: Bool = package.getSizeString().lowercased().contains(string)
+
+      if nameMatch || dateMatch || sizeMatch {
+        self.filteredBootCampPackages.append(package)
+      }
+    }
+
+    // add matches for model identifiers and marketing names
+    for model in self.macModels.getModelArray() {
+
+      let modelIdentifierMatch: Bool = model.getModelIdentifier().lowercased().contains(string)
+      let marketingNameMatch: Bool = model.getMarketingName().lowercased().contains(string)
+
+      if modelIdentifierMatch || marketingNameMatch {
+        let packages: [BootCampPackage] = self.bootCampPackages.getPackages(for: model.getModelIdentifier())
+
+        for package in packages {
+          if !self.filteredBootCampPackages.contains(package) {
+            self.filteredBootCampPackages.append(package)
+          }
+        }
+      }
+    }
+
+    self.bootCampPackagesOutlineView?.reloadData()
+    self.bootCampPackagesOutlineView?.expandItem(nil, expandChildren: true)
   }
 }
