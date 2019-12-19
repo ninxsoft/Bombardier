@@ -412,7 +412,15 @@
 			<key>MarketingName</key>
 			<string>MacBook Air (Retina, 13-inch, 2018)</string>
 			<key>ImagePath</key>
-			<string>com.apple.macbookair-13-unibody.icns</string>
+			<string>com.apple.macbookair-2018-silver.icns</string>
+		</dict>
+		<dict>
+			<key>ModelIdentifier</key>
+			<string>MacBookAir8,2</string>
+			<key>MarketingName</key>
+			<string>MacBook Air (Retina, 13-inch, 2019)</string>
+			<key>ImagePath</key>
+			<string>com.apple.macbookair-2018-space-gray.icns</string>
 		</dict>
 		<dict>
 			<key>ModelIdentifier</key>
@@ -688,6 +696,22 @@
 		</dict>
 		<dict>
 			<key>ModelIdentifier</key>
+			<string>MacBookPro15,4</string>
+			<key>MarketingName</key>
+			<string>MacBook Pro (13-inch, 2019, Two Thunderbolt 3 Ports)</string>
+			<key>ImagePath</key>
+			<string>com.apple.macbookpro-13-retina-usbc-space-gray.icns</string>
+		</dict>
+		<dict>
+			<key>ModelIdentifier</key>
+			<string>MacBookPro16,1</string>
+			<key>MarketingName</key>
+			<string>MacBook Pro (16-inch, 2019)</string>
+			<key>ImagePath</key>
+			<string>com.apple.macbookpro-15-retina-touchid-space-gray.icns</string>
+		</dict>
+		<dict>
+			<key>ModelIdentifier</key>
 			<string>Macmini2,1</string>
 			<key>MarketingName</key>
 			<string>Mac mini (Mid 2007)</string>
@@ -764,7 +788,7 @@
 			<key>MarketingName</key>
 			<string>Mac mini (2018)</string>
 			<key>ImagePath</key>
-			<string>com.apple.macmini-unibody-no-optical.icns</string>
+			<string>com.apple.macmini-2018.icns</string>
 		</dict>
 		<dict>
 			<key>ModelIdentifier</key>
@@ -813,6 +837,14 @@
 			<string>Mac Pro (Late 2013)</string>
 			<key>ImagePath</key>
 			<string>com.apple.macpro-cylinder.icns</string>
+		</dict>
+		<dict>
+			<key>ModelIdentifier</key>
+			<string>MacPro7,1</string>
+			<key>MarketingName</key>
+			<string>Mac Pro (2019)</string>
+			<key>ImagePath</key>
+			<string>com.apple.macpro-2019.icns</string>
 		</dict>
 	</array>
 </dict>
