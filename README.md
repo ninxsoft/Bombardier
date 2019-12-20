@@ -41,6 +41,8 @@ Grab the latest version of Bombardier from the [releases page](https://github.co
 *   Adrien Le Mière ([@Moutok](https://macadmins.slack.com)) for the awesome app name.
 
 ## Version History
+*   2.0.1
+    *   Fixed a bug where a package would attempt to download when a Mac row was double clicked
 *   2.0
     *   Specify a custom Software Update Catalog URL via the Preferences!
     *   Results can be filtered either via **Mac Models** or **Boot Camp Packages**
