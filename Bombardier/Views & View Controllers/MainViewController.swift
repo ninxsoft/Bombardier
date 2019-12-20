@@ -124,7 +124,6 @@ class MainViewController: NSViewController {
 
   func downloadPackage() {
     var path: String = ""
-    var package: BootCampPackage = BootCampPackage()
 
     switch type {
     case .macModels:
@@ -132,7 +131,12 @@ class MainViewController: NSViewController {
       if let selectedRow: Int = self.macModelsOutlineView?.selectedRow,
         let selectedPackage: BootCampPackage = self.macModelsOutlineView?.item(atRow: selectedRow) as? BootCampPackage {
         path = "\(MainViewController.downloadPath)/\(selectedPackage.getName()).dmg"
-        package = selectedPackage
+
+        if FileManager.default.fileExists(atPath: path) {
+          NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
+        } else {
+          self.presentDownloadWindowController(package: selectedPackage)
+        }
       }
     case .bootCampPackages:
       // only action if selected row is a package (not a mac model)
@@ -140,14 +144,13 @@ class MainViewController: NSViewController {
         let selectedPackage: BootCampPackage =
         self.bootCampPackagesOutlineView?.item(atRow: selectedRow) as? BootCampPackage {
         path = "\(MainViewController.downloadPath)/\(selectedPackage.getName()).dmg"
-        package = selectedPackage
-      }
-    }
 
-    if FileManager.default.fileExists(atPath: path) {
-      NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
-    } else {
-      self.presentDownloadWindowController(package: package)
+        if FileManager.default.fileExists(atPath: path) {
+          NSWorkspace.shared.selectFile(path, inFileViewerRootedAtPath: "")
+        } else {
+          self.presentDownloadWindowController(package: selectedPackage)
+        }
+      }
     }
   }
 
