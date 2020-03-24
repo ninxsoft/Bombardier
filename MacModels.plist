@@ -424,6 +424,14 @@
 		</dict>
 		<dict>
 			<key>ModelIdentifier</key>
+			<string>MacBookAir9,1</string>
+			<key>MarketingName</key>
+			<string>MacBook Air (Retina, 13-inch, 2020)</string>
+			<key>ImagePath</key>
+			<string>com.apple.macbookair-2018-space-gray.icns</string>
+		</dict>
+		<dict>
+			<key>ModelIdentifier</key>
 			<string>MacBookPro2,1</string>
 			<key>MarketingName</key>
 			<string>MacBook Pro (17-inch)</string>
