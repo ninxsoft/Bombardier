@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>LastUpdated</key>
-	<date>2020-03-24T01:00:00Z</date>
+	<date>2020-05-19T02:00:00Z</date>
 	<key>Models</key>
 	<array>
 		<dict>
@@ -717,6 +717,22 @@
 			<string>MacBook Pro (16-inch, 2019)</string>
 			<key>ImagePath</key>
 			<string>com.apple.macbookpro-15-retina-touchid-space-gray.icns</string>
+		</dict>
+		<dict>
+			<key>ModelIdentifier</key>
+			<string>MacBookPro16,2</string>
+			<key>MarketingName</key>
+			<string>MacBook Pro (13-inch, 2020, Four Thunderbolt 3 Ports)</string>
+			<key>ImagePath</key>
+			<string>com.apple.macbookpro-13-retina-touchid-space-gray.icns</string>
+		</dict>
+		<dict>
+			<key>ModelIdentifier</key>
+			<string>MacBookPro16,3</string>
+			<key>MarketingName</key>
+			<string>MacBook Pro (13-inch, 2020, Two Thunderbolt 3 Ports)</string>
+			<key>ImagePath</key>
+			<string>com.apple.macbookpro-13-retina-touchid-silver.icns</string>
 		</dict>
 		<dict>
 			<key>ModelIdentifier</key>
