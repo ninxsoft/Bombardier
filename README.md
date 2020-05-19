@@ -1,10 +1,12 @@
 # Bombardier
 A Mac utility that downloads and extracts [Boot Camp](https://support.apple.com/en-au/boot-camp) drivers with a single click:
 
-|                | **Light** | **Dark** |
-| :------------: | :-------: | :------: |
-| **Mac Models** | ![Mac Models](Readme%20Resources/Mac%20Models%20-%20Light.png) | ![Mac Models](Readme%20Resources/Mac%20Models%20-%20Dark.png) |
-| **Boot Camp Packages** | ![Boot Camp Packages](Readme%20Resources/Boot%20Camp%20Packages%20-%20Light.png) | ![Boot Camp Packages](Readme%20Resources/Boot%20Camp%20Packages%20-%20Dark.png) |
+|                                  | **Screenshot**                                                                   |
+| :------------------------------: | :------------------------------------------------------------------------------: |
+| **Mac Models**<br/>Light         | ![Mac Models](Readme%20Resources/Mac%20Models%20-%20Light.png)                   |
+| **Mac Models**<br/>Dark          | ![Mac Models](Readme%20Resources/Mac%20Models%20-%20Dark.png)                    |
+| **Boot Camp Packages**<br/>Light | ![Boot Camp Packages](Readme%20Resources/Boot%20Camp%20Packages%20-%20Light.png) |
+| **Boot Camp Packages**<br/>Dark  | ![Boot Camp Packages](Readme%20Resources/Boot%20Camp%20Packages%20-%20Dark.png)  |
 
 Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), a command-line utility that has saved me countless hours troubleshooting Boot Camp driver packages.
 
