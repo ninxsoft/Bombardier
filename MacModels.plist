@@ -736,6 +736,14 @@
 		</dict>
 		<dict>
 			<key>ModelIdentifier</key>
+			<string>MacBookPro16,4</string>
+			<key>MarketingName</key>
+			<string>MacBook Pro (16-inch, 2019)</string>
+			<key>ImagePath</key>
+			<string>com.apple.macbookpro-13-retina-touchid-space-gray.icns</string>
+		</dict>
+		<dict>
+			<key>ModelIdentifier</key>
 			<string>Macmini2,1</string>
 			<key>MarketingName</key>
 			<string>Mac mini (Mid 2007)</string>
