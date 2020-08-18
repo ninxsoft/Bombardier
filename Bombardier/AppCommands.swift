@@ -17,7 +17,10 @@ struct AppCommands: Commands {
       })
     }
     CommandGroup(replacing: .saveItem) {
-
+      Button("Close", action: {
+        close()
+      })
+      .keyboardShortcut("w", modifiers: .command)
     }
     CommandGroup(replacing: .systemServices) {
 
@@ -33,5 +36,9 @@ struct AppCommands: Commands {
     }
 
     openURL(url)
+  }
+
+  func close() {
+    NSApplication.shared.keyWindow?.close()
   }
 }
