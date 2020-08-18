@@ -33,9 +33,7 @@ Grab the latest version of **Bombardier** from the [releases page](https://githu
 
 ## Version History
 *   3.0 (Beta)
-    *   Complete app rewrite
-        *   Visual design overhaul
-        *   Modern SwiftUI App Life-Cycle
+    *   Complete app rewrite - visual design overhaul and modern SwiftUI App Life-Cycle
     *   Added filter and sort options in addition to search
     *   The Software Update Catalog can now be reset to the default Apple one
     *   You can now specify a downloads directory
