@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>LastUpdated</key>
-	<date>2020-05-19T02:00:00Z</date>
+	<date>2020-08-18T02:00:00Z</date>
 	<key>Models</key>
 	<array>
 		<dict>
@@ -221,6 +221,22 @@
 			<string>iMac (Retina 4K, 21.5-inch, 2019)</string>
 			<key>ImagePath</key>
 			<string>com.apple.imac-unibody-21-no-optical.icns</string>
+		</dict>
+		<dict>
+			<key>ModelIdentifier</key>
+			<string>iMac20,1</string>
+			<key>MarketingName</key>
+			<string>iMac (Retina 5K, 27-inch, 2020)</string>
+			<key>ImagePath</key>
+			<string>com.apple.imac-unibody-27-no-optical.icns</string>
+		</dict>
+		<dict>
+			<key>ModelIdentifier</key>
+			<string>iMac20,2</string>
+			<key>MarketingName</key>
+			<string>iMac (Retina 5K, 27-inch, 2020)</string>
+			<key>ImagePath</key>
+			<string>com.apple.imac-unibody-27-no-optical.icns</string>
 		</dict>
 		<dict>
 			<key>ModelIdentifier</key>
