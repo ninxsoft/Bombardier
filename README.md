@@ -7,6 +7,7 @@ A Mac utility that downloads and extracts [Boot Camp](https://support.apple.com/
 Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), a command-line utility that has saved me countless hours troubleshooting Boot Camp driver packages.
 
 ## Features
+
 *   [x] One click download of Boot Camp drivers
     *   The Boot Camp driver disk image (**DMG**) is automatically extracted from the downloaded Package (**PKG**)
     *   You can filter / sort / search any way to help narrow down the **Mac Models** / **Boot Camp Packages** you are looking for
@@ -20,21 +21,27 @@ Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), 
         ![Preferences](Readme%20Resources/Preferences.png)
 
 ## Build Requirements
+
 *   Swift **5.3**.
 *   Xcode **12.0**.
 *   Runs on macOS Big Sur **11.0**.
 
 ## Download
+
 Grab the latest version of **Bombardier** from the [releases page](https://github.com/ninxsoft/Bombardier/releases).
 
-**Note:** Version **3.0** requires [macOS Big Sur](https://www.apple.com/macos/big-sur/) or later. If you need to run Bombardier on an older operating system, you can still use version **2.x**.
+**Note:** Version **3.0** requires **macOS Big Sur** or later.
+
+If you need to run **Bombardier** on an older operating system, you can still use version **2.x**.
 
 ## Credits / Thank You
+
 *   Project created and maintained by Nindi Gill ([ninxsoft](https://github.com/ninxsoft)).
 *   Tim Sutton ([timsutton](https://github.com/timsutton)) for his amazing work on [brigadier](https://github.com/timsutton/brigadier).
 *   Adrien Le Mière ([@Moutok](https://macadmins.slack.com)) for the awesome app name.
 
 ## Version History
+
 *   3.0
     *   Complete app rewrite - visual design overhaul and modern SwiftUI App Life-Cycle
     *   Boot Camp Packages now display versions
@@ -56,6 +63,7 @@ Grab the latest version of **Bombardier** from the [releases page](https://githu
     *   Initial release
 
 ## License
+
     Copyright © 2020 Nindi Gill
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
