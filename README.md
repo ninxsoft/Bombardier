@@ -1,4 +1,5 @@
 # Bombardier
+
 A Mac utility that downloads and extracts [Boot Camp](https://support.apple.com/en-au/boot-camp) drivers with a single click:
 
 ![Bombardier](Readme%20Resources/Bombardier.png)
@@ -9,7 +10,7 @@ Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), 
 *   [x] One click download of Boot Camp drivers
     *   The Boot Camp driver disk image (**DMG**) is automatically extracted from the downloaded Package (**PKG**)
     *   You can filter / sort / search any way to help narrow down the **Mac Models** / **Boot Camp Packages** you are looking for
-    *   Boot Camp drivers are downloaded to a folder of your choosing (default is `/Users/Shared/Bombardier`)
+    *   Boot Camp drivers are downloaded to a folder of your choosing (default: `/Users/Shared/Bombardier`)
 *   [x] Launching Bombardier will automatically update:
     *   The list of Mac Models
     *   The Apple Software Update Catalog (**SUCatalog**), used to determine Boot Camp drivers
@@ -19,12 +20,14 @@ Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), 
         ![Preferences](Readme%20Resources/Preferences.png)
 
 ## Build Requirements
-*   Swift **5.1**.
+*   Swift **5.3**.
 *   Xcode **12.0**.
 *   Runs on macOS Big Sur **11.0**.
 
 ## Download
 Grab the latest version of **Bombardier** from the [releases page](https://github.com/ninxsoft/Bombardier/releases).
+
+**Note:** Version **3.0** requires [macOS Big Sur](https://www.apple.com/macos/big-sur/) or later. If you need to run Bombardier on an older operating system, you can still use version **2.x**.
 
 ## Credits / Thank You
 *   Project created and maintained by Nindi Gill ([ninxsoft](https://github.com/ninxsoft)).
@@ -32,12 +35,14 @@ Grab the latest version of **Bombardier** from the [releases page](https://githu
 *   Adrien Le Mière ([@Moutok](https://macadmins.slack.com)) for the awesome app name.
 
 ## Version History
-*   3.0 (Beta)
+*   3.0
     *   Complete app rewrite - visual design overhaul and modern SwiftUI App Life-Cycle
+    *   Boot Camp Packages now display versions
     *   Added filter and sort options in addition to search
-    *   The Software Update Catalog can now be reset to the default Apple one
-    *   You can now specify a downloads directory
+    *   The Software Update Catalog can now be reset to the Apple default
+    *   You can now specify a downloads directory (default: `/Users/Shared/Bombardier`)
     *   Menubar items have been cleaned up
+    *   Shiny new app icon!
 *   2.0.1
     *   Fixed a bug where a package would attempt to download when a Mac row was double clicked
 *   2.0
