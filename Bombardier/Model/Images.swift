@@ -9,78 +9,53 @@ import Cocoa
 
 class Images {
 
-  static let shared: Images = Images()
-  private static let modelPath: String = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/"
-  private static let packagePath: String = "/System/Library/CoreServices/Installer.app/Contents/Resources/package.icns"
-  // swiftlint:disable:next line_length
-  private static let dmgPath: String = "/System/Library/CoreServices/DiskImageMounter.app/Contents/Resources/diskcopy-doc.icns"
-  private var modelsArray: [(name: String, image: NSImage)] = []
+    static let shared: Images = Images()
+    static let modelPath: String = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/"
+    static let packagePath: String = "/System/Library/CoreServices/Installer.app/Contents/Resources/package.icns"
+    static let dmgPath: String = "/System/Library/CoreServices/DiskImageMounter.app/Contents/Resources/diskcopy-doc.icns"
+    private var modelsArray: [(name: String, image: NSImage)] = []
 
-  init() {
+    init() {
 
-    do {
-      let names: [String] = try FileManager.default.contentsOfDirectory(atPath: Images.modelPath)
+        do {
+            let names: [String] = try FileManager.default.contentsOfDirectory(atPath: Images.modelPath)
 
-      for name in names where name.contains("imac") ||
-                              name.contains("macpro") ||
-                              name.contains("macmini") ||
-                              name.contains("macbook") {
+            for name in names where name.contains("imac") ||
+                name.contains("macpro") ||
+                name.contains("macmini") ||
+                name.contains("macbook") {
 
-        if let image: NSImage = NSImage(contentsOfFile: Images.modelPath + name) {
-          let tuple: (name: String, image: NSImage) = (name: name, image: image)
-          modelsArray.append(tuple)
+                if let image: NSImage = NSImage(contentsOfFile: Images.modelPath + name) {
+                    let tuple: (name: String, image: NSImage) = (name: name, image: image)
+                    modelsArray.append(tuple)
+                }
+            }
+        } catch {
+            print(error)
         }
-      }
-    } catch {
-      print(error)
     }
-  }
 
-  func model(width: CGFloat, height: CGFloat) -> NSImage {
-    if let image: NSImage = NSImage(contentsOfFile: Images.modelPath + "com.apple.imacpro-2017.icns"),
-       let resizedImage: NSImage = image.resized(width: width, height: height) {
-      return resizedImage
-    } else {
-      let image: NSImage = NSImage(systemSymbolName: "desktopcomputer", accessibilityDescription: nil)!
-      let resizedImage: NSImage = image.resized(width: width, height: height)!
-      return resizedImage
-    }
-  }
+    func image(path: String, width: CGFloat, height: CGFloat) -> NSImage {
 
-  func modelImage(for name: String, width: CGFloat, height: CGFloat) -> NSImage {
+        guard let image: NSImage = NSImage(contentsOfFile: path),
+            let resizedImage: NSImage = image.resized(width: width, height: height) else {
+            return NSApplication.shared.applicationIconImage
+        }
 
-    for model in modelsArray where model.name == name {
-
-      if let resizedImage: NSImage = model.image.resized(width: width, height: height) {
         return resizedImage
-      }
     }
 
-    let systemSymbolName: String = name.contains("macbook") ? "laptopcomputer" : "desktopcomputer"
-    let image: NSImage = NSImage(systemSymbolName: systemSymbolName, accessibilityDescription: nil)!
-    let resizedImage: NSImage = image.resized(width: width, height: height)!
-    return resizedImage
-  }
+    func modelImage(for name: String, width: CGFloat, height: CGFloat) -> NSImage {
 
-  func package(width: CGFloat, height: CGFloat) -> NSImage {
-    if let image: NSImage = NSImage(contentsOfFile: Images.packagePath),
-       let resizedImage: NSImage = image.resized(width: width, height: height) {
-      return resizedImage
-    } else {
-      let image: NSImage = NSImage(systemSymbolName: "archivebox", accessibilityDescription: nil)!
-      let resizedImage: NSImage = image.resized(width: width, height: height)!
-      return resizedImage
-    }
-  }
+        for model in modelsArray where model.name == name {
 
-  func dmg(width: CGFloat, height: CGFloat) -> NSImage {
-    if let image: NSImage = NSImage(contentsOfFile: Images.dmgPath),
-       let resizedImage: NSImage = image.resized(width: width, height: height) {
-      return resizedImage
-    } else {
-      let image: NSImage = NSImage(systemSymbolName: "archivebox", accessibilityDescription: nil)!
-      let resizedImage: NSImage = image.resized(width: width, height: height)!
-      return resizedImage
+            guard let resizedImage: NSImage = model.image.resized(width: width, height: height) else {
+                return NSApplication.shared.applicationIconImage
+            }
+
+            return resizedImage
+        }
+
+        return NSApplication.shared.applicationIconImage
     }
-  }
 }

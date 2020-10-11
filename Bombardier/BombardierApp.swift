@@ -9,20 +9,20 @@ import SwiftUI
 
 @main
 struct BombardierApp: App {
-  // swiftlint:disable:next weak_delegate
-  @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate: AppDelegate
-  @StateObject var preferences: Preferences = Preferences.shared
+    // swiftlint:disable:next weak_delegate
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate: AppDelegate
+    @StateObject var preferences: Preferences = Preferences.shared
 
-  @SceneBuilder var body: some Scene {
-    WindowGroup {
-      ContentView()
-        .environmentObject(preferences)
+    @SceneBuilder var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .environmentObject(preferences)
+        }
+        .commands {
+            AppCommands()
+        }
+        Settings {
+            PreferencesView()
+        }
     }
-    .commands {
-      AppCommands()
-    }
-    Settings {
-      PreferencesView()
-    }
-  }
 }

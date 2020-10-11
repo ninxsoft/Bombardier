@@ -7,38 +7,38 @@
 
 import SwiftUI
 
-struct SettingsPathControl_Previews: PreviewProvider {
-  static var previews: some View {
-    PreferencesPathControl(bookmarkData: Data())
-  }
-}
-
 struct PreferencesPathControl: NSViewRepresentable {
 
-  class Coordinator: NSObject {
-    var parent: PreferencesPathControl
+    class Coordinator: NSObject {
+        var parent: PreferencesPathControl
 
-    init(_ parent: PreferencesPathControl) {
-      self.parent = parent
+        init(_ parent: PreferencesPathControl) {
+            self.parent = parent
+        }
     }
-  }
 
-  var bookmarkData: Data
+    var bookmarkData: Data
 
-  func makeCoordinator() -> Coordinator {
-    Coordinator(self)
-  }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
 
-  func makeNSView(context: Context) -> NSPathControl {
-    let pathControl: NSPathControl = NSPathControl(frame: .zero)
-    pathControl.pathStyle = .standard
-    pathControl.isEditable = false
-    pathControl.focusRingType = .none
-    pathControl.url = bookmarkData.downloadsDirectoryURL
-    return pathControl
-  }
+    func makeNSView(context: Context) -> NSPathControl {
+        let pathControl: NSPathControl = NSPathControl(frame: .zero)
+        pathControl.pathStyle = .standard
+        pathControl.isEditable = false
+        pathControl.focusRingType = .none
+        pathControl.url = bookmarkData.downloadsDirectoryURL
+        return pathControl
+    }
 
-  func updateNSView(_ nsView: NSPathControl, context: Context) {
-    nsView.url = bookmarkData.downloadsDirectoryURL
-  }
+    func updateNSView(_ nsView: NSPathControl, context: Context) {
+        nsView.url = bookmarkData.downloadsDirectoryURL
+    }
+}
+
+struct SettingsPathControl_Previews: PreviewProvider {
+    static var previews: some View {
+        PreferencesPathControl(bookmarkData: Data())
+    }
 }

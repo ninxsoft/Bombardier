@@ -8,6 +8,6 @@
 import Foundation
 
 struct Key {
-  static let softwareUpdateCatalogURL: String = "SoftwareUpdateCatalogURL"
-  static let downloadsDirectoryBookmarkData: String = "DownloadsDirectoryBookmarkData"
+    static let softwareUpdateCatalogURL: String = "SoftwareUpdateCatalogURL"
+    static let downloadsDirectoryBookmarkData: String = "DownloadsDirectoryBookmarkData"
 }

@@ -9,17 +9,17 @@ import Foundation
 
 extension Data {
 
-  var downloadsDirectoryURL: URL {
+    var downloadsDirectoryURL: URL {
 
-    var isStale: Bool = false
-    var url: URL = URL(fileURLWithPath: Preferences.defaultDownloadsDirectory)
+        var isStale: Bool = false
+        var url: URL = URL(fileURLWithPath: Preferences.defaultDownloadsDirectory)
 
-    do {
-      url = try URL(resolvingBookmarkData: self, bookmarkDataIsStale: &isStale)
-    } catch {
-      print(error)
+        do {
+            url = try URL(resolvingBookmarkData: self, bookmarkDataIsStale: &isStale)
+        } catch {
+            print(error)
+        }
+
+        return url
     }
-
-    return url
-  }
 }

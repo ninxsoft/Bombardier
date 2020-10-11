@@ -8,15 +8,15 @@
 import Foundation
 
 enum DisplayType: String, Identifiable, CaseIterable {
-  case models = "Mac Models"
-  case packages = "Boot Camp Packages"
+    case models = "Mac Models"
+    case packages = "Boot Camp Packages"
 
-  // swiftlint:disable:next identifier_name
-  var id: String {
-    return self.rawValue
-  }
+    // swiftlint:disable:next identifier_name
+    var id: String {
+        rawValue
+    }
 
-  var description: String {
-    return self.rawValue
-  }
+    var description: String {
+        rawValue
+    }
 }
