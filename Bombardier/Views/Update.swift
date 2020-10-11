@@ -130,7 +130,7 @@ struct Update: View {
     private func update() {
 
         guard let modelsURL = URL(string: Models.urlPath),
-            let packagesURL = URL(string: Preferences.shared.softwareUpdateCatalogURL) else {
+            let catalogURL = URL(string: Preferences.shared.softwareUpdateCatalogURL) else {
             finish(models: true, packages: true)
             return
         }
@@ -152,7 +152,7 @@ struct Update: View {
             modelsLoading = false
             modelsLastUpdated = Models.lastUpdated(from: modelsDictionary)
 
-            let packagesTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: packagesURL) { url, _, error  in
+            let packagesTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: catalogURL) { url, _, error  in
 
                 if let error: Error = error {
                     print(error)
