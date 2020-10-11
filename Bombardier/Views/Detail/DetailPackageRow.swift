@@ -27,6 +27,9 @@ struct DetailPackageRow: View {
                     Text("Name:")
                         .font(.title3)
                         .fontWeight(.semibold)
+                    Text("Version:")
+                        .font(.title3)
+                        .fontWeight(.semibold)
                     Text("Size:")
                         .font(.title3)
                         .fontWeight(.semibold)
@@ -36,6 +39,8 @@ struct DetailPackageRow: View {
                 }
                 VStack(alignment: .leading) {
                     Text(package.name)
+                        .font(.title3)
+                    Text(package.version)
                         .font(.title3)
                     Text(package.formattedSize)
                         .font(.title3)

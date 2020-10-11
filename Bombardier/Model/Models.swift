@@ -71,21 +71,15 @@ struct Model: Identifiable, Hashable {
 
 class Models {
 
-    static let urlPath: String = "https://raw.githubusercontent.com/ninxsoft/Bombardier/master/MacModels.plist"
-
-    static func models(from dictionary: NSDictionary) -> [Model] {
+    static func models(from dictionaries: [[String: Any]]) -> [Model] {
 
         var models: [Model] = []
 
-        guard let modelDictionaries: [[String: Any]] = dictionary.object(forKey: "Models") as? [[String: Any]] else {
-            return models
-        }
+        for dictionary in dictionaries {
 
-        for modelDictionary in modelDictionaries {
-
-            guard let modelIdentifier: String = modelDictionary["ModelIdentifier"] as? String,
-                let name: String = modelDictionary["MarketingName"] as? String,
-                let imageName: String = modelDictionary["ImagePath"] as? String else {
+            guard let modelIdentifier: String = dictionary["ModelIdentifier"] as? String,
+                let name: String = dictionary["MarketingName"] as? String,
+                let imageName: String = dictionary["ImagePath"] as? String else {
                 continue
             }
 
@@ -94,14 +88,5 @@ class Models {
         }
 
         return models
-    }
-
-    static func lastUpdated(from dictionary: NSDictionary) -> Date {
-
-        guard let date: Date = dictionary.object(forKey: "LastUpdated") as? Date else {
-            return Date()
-        }
-
-        return date
     }
 }

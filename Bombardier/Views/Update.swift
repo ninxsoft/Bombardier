@@ -129,13 +129,13 @@ struct Update: View {
 
     private func update() {
 
-        guard let modelsURL = URL(string: Models.urlPath),
+        guard let bombardierURL = URL(string: Preferences.bombardierURL),
             let catalogURL = URL(string: Preferences.shared.softwareUpdateCatalogURL) else {
             finish(models: true, packages: true)
             return
         }
 
-        let modelsTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: modelsURL) { url, _, error in
+        let bombardierTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: bombardierURL) { url, _, error in
 
             if let error: Error = error {
                 print(error)
@@ -144,13 +144,16 @@ struct Update: View {
             }
 
             guard let url = url,
-                let modelsDictionary = NSDictionary(contentsOf: url) else {
+                let dictionary: NSDictionary = NSDictionary(contentsOf: url),
+                let lastUpdated: Date = dictionary.object(forKey: "LastUpdated") as? Date,
+                let modelsArray: [[String: Any]] = dictionary.object(forKey: "Models") as? [[String: Any]],
+                let packagesArray: [[String: Any]] = dictionary.object(forKey: "Packages") as? [[String: Any]] else {
                 finish(models: true, packages: true)
                 return
             }
 
             modelsLoading = false
-            modelsLastUpdated = Models.lastUpdated(from: modelsDictionary)
+            modelsLastUpdated = lastUpdated
 
             let packagesTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: catalogURL) { url, _, error  in
 
@@ -161,21 +164,23 @@ struct Update: View {
                 }
 
                 guard let url = url,
-                    let packagesDictionary = NSDictionary(contentsOf: url) else {
+                    let dictionary = NSDictionary(contentsOf: url),
+                    let lastUpdated: Date = dictionary.object(forKey: "IndexDate") as? Date,
+                    let products: [String: Any] = dictionary.object(forKey: "Products") as? [String: Any] else {
                     finish(models: false, packages: true)
                     return
                 }
 
                 packagesLoading = false
-                packagesLastUpdated = Packages.lastUpdated(from: packagesDictionary)
-                packages = Packages.packages(from: packagesDictionary)
-                models = Models.models(from: modelsDictionary)
+                packagesLastUpdated = lastUpdated
+                packages = Packages.packages(from: products, with: packagesArray)
+                models = Models.models(from: modelsArray)
             }
 
             packagesTask.resume()
         }
 
-        modelsTask.resume()
+        bombardierTask.resume()
     }
 
     private func finish(models: Bool, packages: Bool) {

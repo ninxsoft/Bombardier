@@ -18,6 +18,7 @@ class Preferences: ObservableObject {
     // swiftlint:disable:next line_length
     static let defaultSoftwareUpdateCatalogURL: String = "https://swscan.apple.com/content/catalogs/others/index-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog"
     static let defaultDownloadsDirectory: String = "/Users/Shared/Bombardier"
+    static let bombardierURL: String = "https://raw.githubusercontent.com/ninxsoft/Bombardier/master/Bombardier.plist"
     @Published var softwareUpdateCatalogURL: String = Preferences.defaultSoftwareUpdateCatalogURL
     @Published var downloadsDirectoryBookmarkData: Data = Data()
     @Published var sheet: Sheet = .update

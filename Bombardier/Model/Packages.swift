@@ -11,18 +11,20 @@ struct Package: Identifiable, Hashable {
 
     static var example: Package {
         let name: String = "000-123456"
+        let version: String = "1.2.3456"
         let size: Int = 1234567890
         let date: Date = Date()
         let urlPath: String = "https://example.com"
         let digest: String = "abcdef0123456789"
         let modelIdentifiers: [String] = []
-        let package: Package = Package(name: name, size: size, date: date, urlPath: urlPath, digest: digest, modelIdentifiers: modelIdentifiers)
+        let package: Package = Package(name: name, version: version, size: size, date: date, urlPath: urlPath, digest: digest, modelIdentifiers: modelIdentifiers)
         return package
     }
 
     // swiftlint:disable:next identifier_name
     let id: String = UUID().uuidString
     let name: String
+    let version: String
     let size: Int
     let date: Date
     let urlPath: String
@@ -80,13 +82,9 @@ class Packages {
         return modelIdentifiers.sorted { $0 < $1 }
     }
 
-    static func packages(from dictionary: NSDictionary) -> [Package] {
+    static func packages(from products: [String: Any], with packageDictionaries: [[String: Any]]) -> [Package] {
 
         var packages: [Package] = []
-
-        guard let products: [String: Any] = dictionary.object(forKey: "Products") as? [String: Any] else {
-            return packages
-        }
 
         for (name, product) in products {
 
@@ -101,22 +99,25 @@ class Packages {
                 let digest: String = packageDictionary["Digest"] as? String,
                 let distributions: [String: Any] = productDictionary["Distributions"] as? [String: Any],
                 let distributionURL: String = distributions["English"] as? String {
-                let modelIdentifiers: [String] = self.modelIdentifiers(from: distributionURL)
 
-                let package: Package = Package(name: name, size: size, date: date, urlPath: urlPath, digest: digest, modelIdentifiers: modelIdentifiers)
+                var version: String = "Unknown"
+
+                for dictionary in packageDictionaries {
+
+                    if let packageName: String = dictionary["PackageName"] as? String,
+                        let bootCampVersion: String = dictionary["BootCampVersion"] as? String,
+                        packageName == name {
+                        version = bootCampVersion
+                        break
+                    }
+                }
+
+                let modelIdentifiers: [String] = self.modelIdentifiers(from: distributionURL)
+                let package: Package = Package(name: name, version: version, size: size, date: date, urlPath: urlPath, digest: digest, modelIdentifiers: modelIdentifiers)
                 packages.append(package)
             }
         }
 
         return packages.sorted { $0.name < $1.name }
-    }
-
-    static func lastUpdated(from dictionary: NSDictionary) -> Date {
-
-        guard let date: Date = dictionary.object(forKey: "IndexDate") as? Date else {
-            return Date()
-        }
-
-        return date
     }
 }
