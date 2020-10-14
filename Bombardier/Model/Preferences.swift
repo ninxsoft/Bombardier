@@ -17,7 +17,7 @@ class Preferences: ObservableObject {
     static let shared: Preferences = Preferences()
     // swiftlint:disable:next line_length
     static let defaultSoftwareUpdateCatalogURL: String = "https://swscan.apple.com/content/catalogs/others/index-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog"
-    static let defaultDownloadsDirectory: String = "/Users/Shared/Bombardier"
+    static let defaultDownloadsDirectory: String = NSHomeDirectory() + "/Downloads/Bombardier"
     static let bombardierURL: String = "https://raw.githubusercontent.com/ninxsoft/Bombardier/master/Bombardier.plist"
     @Published var softwareUpdateCatalogURL: String = Preferences.defaultSoftwareUpdateCatalogURL
     @Published var downloadsDirectoryBookmarkData: Data = Data()
@@ -33,7 +33,7 @@ class Preferences: ObservableObject {
             let url: URL = try URL(resolvingBookmarkData: downloadsDirectoryBookmarkData, bookmarkDataIsStale: &isStale)
             path = url.path
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
 
         return path
@@ -46,10 +46,20 @@ class Preferences: ObservableObject {
             UserDefaults.standard.set(Preferences.defaultSoftwareUpdateCatalogURL, forKey: Key.softwareUpdateCatalogURL)
         }
 
-        if let data: Data = UserDefaults.standard.data(forKey: Key.downloadsDirectoryBookmarkData) {
+        if let data: Data = UserDefaults.standard.data(forKey: Key.downloadsDirectoryBookmarkData),
+            !data.isEmpty {
             downloadsDirectoryBookmarkData = data
         } else {
-            UserDefaults.standard.set(Data(), forKey: Key.downloadsDirectoryBookmarkData)
+
+            let url: URL = URL(fileURLWithPath: Preferences.defaultDownloadsDirectory)
+
+            do {
+                try FileManager.default.createDirectory(atPath: Preferences.defaultDownloadsDirectory, withIntermediateDirectories: false, attributes: nil)
+                let data: Data = try url.bookmarkData()
+                UserDefaults.standard.set(data, forKey: Key.downloadsDirectoryBookmarkData)
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
 
