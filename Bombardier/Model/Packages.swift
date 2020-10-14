@@ -76,7 +76,7 @@ class Packages {
                 }
             }
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
 
         return modelIdentifiers.sorted { $0 < $1 }

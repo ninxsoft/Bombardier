@@ -31,7 +31,7 @@ class Images {
                 }
             }
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
 

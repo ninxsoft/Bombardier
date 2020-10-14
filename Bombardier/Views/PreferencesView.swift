@@ -68,7 +68,7 @@ struct PreferencesView: View {
                 preferences.downloadsDirectoryBookmarkData = data
                 UserDefaults.standard.set(data, forKey: Key.downloadsDirectoryBookmarkData)
             } catch {
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }

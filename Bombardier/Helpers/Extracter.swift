@@ -52,7 +52,7 @@ class Extracter: NSObject, ObservableObject {
                     try FileManager.default.moveItem(atPath: dmgPath, toPath: downloadPath)
                     self.finish(failed: false)
                 } catch {
-                    print(error)
+                    print(error.localizedDescription)
                     self.finish(failed: true)
                 }
 
@@ -60,7 +60,7 @@ class Extracter: NSObject, ObservableObject {
                 _ = self.removeDirectory(directoryPath)
             }
         } catch {
-            print(error)
+            print(error.localizedDescription)
             finish(failed: true)
             _ = removeFile(packagePath)
             _ = removeDirectory(directoryPath)
@@ -84,7 +84,7 @@ class Extracter: NSObject, ObservableObject {
 
             return true
         } catch {
-            print(error)
+            print(error.localizedDescription)
             return false
         }
     }
@@ -100,7 +100,7 @@ class Extracter: NSObject, ObservableObject {
 
             return true
         } catch {
-            print(error)
+            print(error.localizedDescription)
             return false
         }
     }

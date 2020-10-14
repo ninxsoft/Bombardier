@@ -62,7 +62,7 @@ extension Downloader: URLSessionDownloadDelegate {
         do {
             try FileManager.default.moveItem(atPath: location.path, toPath: packagePath)
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
 
         finish(failed: false)

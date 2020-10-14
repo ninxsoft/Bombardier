@@ -17,7 +17,7 @@ extension Data {
         do {
             url = try URL(resolvingBookmarkData: self, bookmarkDataIsStale: &isStale)
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
 
         return url
