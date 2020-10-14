@@ -16,7 +16,7 @@ struct Sidebar: View {
     @Binding var selectedPackage: Package?
     @State private var filter: Bool = false
     @State private var family: Model.Family = .imac
-    @State private var sort: Bool = false
+    @State private var sort: Bool = true
     @State private var ascending: Bool = false
     @State private var searchString: String = ""
     private let width: CGFloat = 400
@@ -47,10 +47,10 @@ struct Sidebar: View {
                 HStack {
                     Toggle("Sort:", isOn: $sort)
                     Picker("Sort", selection: $ascending) {
-                        Text("Least recent to most recent")
-                            .tag(true)
                         Text("Most recent to least recent")
                             .tag(false)
+                        Text("Least recent to most recent")
+                            .tag(true)
                     }
                     .labelsHidden()
                     .disabled(!sort)
