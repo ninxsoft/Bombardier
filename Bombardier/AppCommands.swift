@@ -11,18 +11,12 @@ struct AppCommands: Commands {
     @Environment(\.openURL) var openURL: OpenURLAction
 
     @CommandsBuilder var body: some Commands {
+        CommandGroup(replacing: .newItem) { }
         CommandGroup(replacing: .help) {
             Button("Bombardier Help") {
                 help()
             }
         }
-        CommandGroup(replacing: .saveItem) {
-            Button("Close") {
-                close()
-            }
-            .keyboardShortcut("w", modifiers: .command)
-        }
-        CommandGroup(replacing: .systemServices) { }
     }
 
     func help() {
@@ -34,9 +28,5 @@ struct AppCommands: Commands {
         }
 
         openURL(url)
-    }
-
-    func close() {
-        NSApplication.shared.keyWindow?.close()
     }
 }
