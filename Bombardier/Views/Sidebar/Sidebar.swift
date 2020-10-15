@@ -34,17 +34,6 @@ struct Sidebar: View {
                 .labelsHidden()
                 .controlSize(.large)
                 HStack {
-                    Toggle("Filter:", isOn: $filter)
-                    Picker("Filter", selection: $family) {
-                        ForEach(Model.Family.allCases) { type in
-                            Text(type.description)
-                                .tag(type)
-                        }
-                    }
-                    .labelsHidden()
-                    .disabled(!filter)
-                }
-                HStack {
                     Toggle("Sort:", isOn: $sort)
                     Picker("Sort", selection: $ascending) {
                         Text("Most recent to least recent")
@@ -54,6 +43,17 @@ struct Sidebar: View {
                     }
                     .labelsHidden()
                     .disabled(!sort)
+                }
+                HStack {
+                    Toggle("Filter:", isOn: $filter)
+                    Picker("Filter", selection: $family) {
+                        ForEach(Model.Family.allCases) { type in
+                            Text(type.description)
+                                .tag(type)
+                        }
+                    }
+                    .labelsHidden()
+                    .disabled(!filter)
                 }
                 TextField("Search", text: $searchString)
             }

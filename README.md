@@ -10,7 +10,7 @@ Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), 
 
 *   [x] One click download of Boot Camp drivers
     *   The Boot Camp driver disk image (**DMG**) is automatically extracted from the downloaded Package (**PKG**)
-    *   You can filter / sort / search any way to help narrow down the **Mac Models** / **Boot Camp Packages** you are looking for
+    *   You can sort / filter / search any way to help narrow down the **Mac Models** / **Boot Camp Packages** you are looking for
     *   Boot Camp drivers are downloaded to a folder of your choosing (default: `~/Downloads/Bombardier`)
 *   [x] Launching Bombardier will automatically update:
     *   The list of Mac Models
