@@ -1,48 +1,55 @@
 # Bombardier
+
 A Mac utility that downloads and extracts [Boot Camp](https://support.apple.com/en-au/boot-camp) drivers with a single click:
 
-|                                  | **Screenshot**                                                                   |
-| :------------------------------: | :------------------------------------------------------------------------------: |
-| **Mac Models**<br/>Light         | ![Mac Models](Readme%20Resources/Mac%20Models%20-%20Light.png)                   |
-| **Mac Models**<br/>Dark          | ![Mac Models](Readme%20Resources/Mac%20Models%20-%20Dark.png)                    |
-| **Boot Camp Packages**<br/>Light | ![Boot Camp Packages](Readme%20Resources/Boot%20Camp%20Packages%20-%20Light.png) |
-| **Boot Camp Packages**<br/>Dark  | ![Boot Camp Packages](Readme%20Resources/Boot%20Camp%20Packages%20-%20Dark.png)  |
+![Bombardier](Readme%20Resources/Bombardier.png)
 
 Bombardier is my homage to [brigadier](https://github.com/timsutton/brigadier), a command-line utility that has saved me countless hours troubleshooting Boot Camp driver packages.
 
 ## Features
+
 *   [x] One click download of Boot Camp drivers
     *   The Boot Camp driver disk image (**DMG**) is automatically extracted from the downloaded Package (**PKG**)
-    *   Boot Camp drivers are downloaded to `~/Downloads/Bombardier`
-    *   You can toggle between the **Mac Models** and **Boot Camp Packages** view layouts
-    *   You can search just about anything to help filter down Packages
-    *   You can also double-click on a Package row to initiate a download (or **Show in Finder** if already downloaded)
+    *   You can sort / filter / search any way to help narrow down the **Mac Models** / **Boot Camp Packages** you are looking for
+    *   Boot Camp drivers are downloaded to a folder of your choosing (default: `~/Downloads/Bombardier`)
 *   [x] Launching Bombardier will automatically update:
     *   The list of Mac Models
     *   The Apple Software Update Catalog (**SUCatalog**), used to determine Boot Camp drivers
 
-        **Note:** The catalog can be overridden via **Preferences**:
+        **Note:** The catalog can be overridden / reset via **Preferences**:
 
-        | **Light** | **Dark** |
-        | :-------: | :------: |
-        | ![Preferences](Readme%20Resources/Preferences%20-%20Light.png) | ![Preferences](Readme%20Resources/Preferences%20-%20Dark.png) |
-
+        ![Preferences](Readme%20Resources/Preferences.png)
 
 ## Build Requirements
-*   Written in Swift 5.1.
-*   Built using Xcode 11.3.
-*   Builds run on OS X El Capitan 10.11 or later.
-*   Bombardier has been tested on macOS Catalina 10.15.
+
+*   Swift **5.3**.
+*   Xcode **12.0**.
+*   Runs on macOS Big Sur **11.0**.
 
 ## Download
-Grab the latest version of Bombardier from the [releases page](https://github.com/ninxsoft/Bombardier/releases).
+
+Grab the latest version of **Bombardier** from the [releases page](https://github.com/ninxsoft/Bombardier/releases).
+
+**Note:** Version **3.0** requires **macOS Big Sur** or later.
+
+If you need to run **Bombardier** on an older operating system, you can still use version **2.x**.
 
 ## Credits / Thank You
+
 *   Project created and maintained by Nindi Gill ([ninxsoft](https://github.com/ninxsoft)).
 *   Tim Sutton ([timsutton](https://github.com/timsutton)) for his amazing work on [brigadier](https://github.com/timsutton/brigadier).
 *   Adrien Le Mière ([@Moutok](https://macadmins.slack.com)) for the awesome app name.
 
 ## Version History
+
+*   3.0
+    *   Complete app rewrite - visual design overhaul and modern SwiftUI App Life-Cycle
+    *   Boot Camp Packages now display versions
+    *   Added filter and sort options in addition to search
+    *   The Software Update Catalog can now be reset to the Apple default
+    *   You can now specify a downloads directory (default: `~/Downloads/Bombardier`)
+    *   Menubar items have been cleaned up
+    *   Shiny new app icon!
 *   2.0.1
     *   Fixed a bug where a package would attempt to download when a Mac row was double clicked
 *   2.0
@@ -56,6 +63,7 @@ Grab the latest version of Bombardier from the [releases page](https://github.co
     *   Initial release
 
 ## License
+
     Copyright © 2020 Nindi Gill
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
