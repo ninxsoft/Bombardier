@@ -13,7 +13,7 @@ struct BombardierApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate: AppDelegate
     @StateObject var preferences: Preferences = Preferences.shared
 
-    @SceneBuilder var body: some Scene {
+    var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(preferences)
