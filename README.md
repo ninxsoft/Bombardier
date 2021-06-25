@@ -1,3 +1,5 @@
+<img align="left" width="128" height="128" src="Readme%20Resources/App%20Icon.png">
+
 # Bombardier
 
 A Mac utility that downloads and extracts [Boot Camp](https://support.apple.com/en-au/boot-camp) drivers with a single click:
